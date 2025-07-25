@@ -1,0 +1,72 @@
+type Address {
+    id : ID!
+    street: String!
+    number: String!
+    postalCode: String!
+    district: String!
+    city: String!
+    uf: String!
+    complement: String
+    userId: ID!
+}
+
+type User {
+    id : ID!
+    subKeycloak: String!
+    name: String!
+    telephone: String
+    userData: UserData
+}
+
+type UserData {
+    id: ID!
+    email: String!
+    emailVerified: Boolean!
+    role: RoleEnum!
+    avatarFileId: String
+    address: Address
+    userId: ID!
+}
+
+input AddressInput {
+    street: String!
+    number: String!
+    postalCode: String!
+    district: String!
+    city: String!
+    uf: String!
+    complement: String
+}
+
+input UserInput {
+    subKeycloak: String!
+    name: String!
+    telephone: String
+}
+
+input UserDataInput {
+    email: String!
+    emailVerified: Boolean!
+    role: RoleEnum!
+    avatarFileId: String
+    address: AddressInput
+}
+
+enum RoleEnum {
+    USER
+    PILOT
+    DRONE_OWNER
+    AREA_OWNER
+}
+
+type Query {
+    getUsers: [User]
+    getUserById(id: ID!): User
+    getUserDataByUserId(id: ID!): UserData
+    getAddressByUserId(id: ID!): Address
+}
+
+type Mutation {
+    addUser(userInput: UserInput, userDataInput: UserDataInput): [User]
+    deleteUser(id: ID!): [User]
+}
